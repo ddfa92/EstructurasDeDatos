@@ -1,0 +1,41 @@
+# Comentario
+# regla: dependencias
+# las dependencias son otras reglas
+
+#declaración de variables, en mayúsculas
+OBJS = main.o salida.o calculadora.o
+BINARY = programa
+
+CFLAGS = -g -Wall
+
+x = Hola
+y =$(x) Adios
+
+
+
+#regla para cuando solo se escribe en consola make, rcordemos que si sucede esto se ejecutará la primera regla del archivo makefile
+principal: $(BINARY)
+
+#Esta regla enlaza los archivos y crea un binario del programa principal
+programa: $(OBJS)
+	gcc -o $(BINARY) $(OBJS)
+
+#Crea el archivo objeto main.o
+main.o: main.c funciones.h
+	gcc -c main.c
+salida.o: salida.c funciones.h
+	gcc -c salida.c
+calculadora.o: calculadora.c funciones.h
+	gcc -c calculadora.c
+
+#Regla ficticia phony rules
+clean:
+	rm -f $(BINARY) $(OBJS)
+
+IMPRIMIR:
+	echo $(x)
+	@echo $(y)
+#si no ponemos el @ se imprimirá 2 veces, porque make imprime una por defecto y el propio comando imprime otra
+# hay varios tipos de variables, de expansión recursiva [=] (cada vez que se llama, verifica su contenido) 
+# y de expansión simple [:=], lo que define la variable en el momento que se usa
+

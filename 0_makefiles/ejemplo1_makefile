@@ -1,0 +1,22 @@
+# Comentario
+# regla: dependencias
+# las dependencias son otras reglas
+
+#regla para cuando solo se escribe en consola make, rcordemos que si sucede esto se ejecutará la primera regla del archivo makefile
+principal: programa
+
+#Esta regla enlaza los archivos y crea un binario del programa principal
+programa: main.o salida.o calculadora.o
+	gcc -o programa main.o salida.o calculadora.o
+
+#Crea el archivo objeto main.o
+main.o: main.c funciones.h
+	gcc -c main.c
+salida.o: salida.c funciones.h
+	gcc -c salida.c
+calculadora.o: calculadora.c funciones.h
+	gcc -c calculadora.c
+
+#Regla ficticia phony rules
+clean:
+	rm -f programa *.o
